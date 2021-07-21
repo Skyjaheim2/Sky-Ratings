@@ -57,17 +57,19 @@ def index():
 
 @app.route("/loginUser/<string:username>/<string:user_password>", methods=['POST'])
 def loginUser(username, user_password):
-    print(f"Username: {username}")
-    print(f"User password: {user_password}")
 
     return "Received"
 
 @app.route("/signUpUser/<string:userName>/<string:userEmail>/<string:userPassword>", methods=['POST'])
 def signUpUser(userName, userEmail, userPassword):
-    print(f"UserName: {userName}")
-    print(f"User Password: {userPassword}")
-    print(f"User Email: {userEmail}")
 
+    newUser = User(name=userName, email=userEmail, password=userPassword)
+
+    newUser.addUser()
+
+    Users = User.query.all()
+    for user in Users:
+        print(user.name)
     return ""
 
 # C:\Users\jahei\OneDrive\Documents\Hackathon-1
