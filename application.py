@@ -6,9 +6,11 @@ import json
 from email.message import EmailMessage
 
 from flask import Flask, session, render_template, request, redirect, jsonify
+from flask_session import Session
+
 from functools import wraps
 from dotenv import load_dotenv
-from flask_session import Session
+
 from sqlalchemy import and_
 from models import *
 
@@ -20,9 +22,12 @@ from math import inf
 
 
 # Check for environment variables
-# load_dotenv()
-# if not os.getenv("DATABASE_URL"):
-#     raise RuntimeError("DATABASE_URL is not set")
+load_dotenv()
+if not os.getenv("DATABASE_URL"):
+    raise RuntimeError("DATABASE_URL is not set")
+
+if not os.getenv('TMDB_API_KEY'):
+    raise RuntimeError("TMDB api key is not set")
 #
 # if not os.getenv("EMAIL_ADDRESS"):
 #     raise RuntimeError("EMAIL_ADDRESS is not set")
@@ -38,7 +43,7 @@ app = Flask(__name__)
 app.config['TESTING'] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_PERMANENT'] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
 # The maximum number of items the session stores
@@ -49,27 +54,69 @@ db.init_app(app)
 # ENABLE SESSION
 Session(app)
 
+# GET API KEY
+TMDB_API_KEY = os.getenv('TMDB_API_KEY')
+
 
 @app.route("/", methods=['GET'])
 def index():
+    print(f"API Key: {TMDB_API_KEY}")
     return render_template("index.html")
 
 
-@app.route("/loginUser/<string:username>/<string:user_password>", methods=['POST'])
-def loginUser(username, user_password):
+@app.route("/loginUser/<string:userName>/<string:userPassword>", methods=['POST', 'GET'])
+def loginUser(userName, userPassword):
+    userPassword = hash_password(userPassword)
 
-    return "Received"
+    checkUser = User.query.filter(and_(User.name == userName, User.password == userPassword)).all()
+    if len(checkUser) != 0:
+        session['user_id'] = checkUser[0].id
+        session['logged_in'] = True
+        return "Logged In"
+    else:
+        if request.method == 'GET':
+            return "Signed Up"
+        return "Invalid Credentials"
+
+
+@app.route("/getTrendingMovies", methods=['GET'])
+def getTrendingMovies():
+    url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={TMDB_API_KEY}"
+    response = requests.request("GET", url)
+    if response.status_code == 200:
+        JSON_DATA = json.loads(response.text)
+        return jsonify(JSON_DATA)
+    else:
+        return "Something went wrong with the url"
+
 
 @app.route("/signUpUser/<string:userName>/<string:userEmail>/<string:userPassword>", methods=['POST'])
 def signUpUser(userName, userEmail, userPassword):
+    userPassword = hash_password(userPassword)
 
     newUser = User(name=userName, email=userEmail, password=userPassword)
 
-    newUser.addUser()
+    if newUser.addUser() == -1:
+        return "User Already Signed Up"
+    else:
+        return redirect(f"/loginUser/{userName}/{userPassword}")
 
-    Users = User.query.all()
-    for user in Users:
-        print(user.name)
-    return ""
+
+@app.route("/checkIfUserIsStillLoggedIn", methods=['GET'])
+def checkIfUserIsStillLoggedIn():
+    return json.dumps(True) if 'logged_in' in session else json.dumps(False)
+
+@app.route("/signOut", methods=['POST'])
+def signOut():
+    session.clear()
+    return "Signed Out"
+
+def hash_password(password):
+    return hashlib.sha256(str.encode(password)).hexdigest()
+
+def check_password_hash(password, hash):
+    if hash_password(password) == hash:
+        return True
+    return False
 
 # C:\Users\jahei\OneDrive\Documents\Hackathon-1

@@ -15,8 +15,15 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
 
     def addUser(self):
-        newUser = User(name=self.name, email=self.email, password=self.password)
-        # TODO - Check if user already exists
+        if self.id == None:
+            newUser = User(name=self.name, email=self.email, password=self.password)
+        else:
+            newUser = User(id=self.id, name=self.name, email=self.email, password=self.password)
 
-        db.session.add(newUser)
-        db.session.commit()
+        checkUser = User.query.filter(and_(User.name == self.name, User.password == self.password)).all()
+
+        if len(checkUser) != 0:
+            return -1  # USER ALREADY EXIST
+        else:
+            db.session.add(newUser)
+            db.session.commit()
