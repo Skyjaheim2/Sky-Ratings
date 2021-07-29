@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+{% block title %} Home {% endblock %}
 
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/simple-line-icons.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/smoothproducts.css') }}">
-
+{% block stylesheet %}
     <style>
-        .inputLabel {
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-size: 18px;
-            font-weight: 500;
-        }
-        ::placeholder {
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        }
         #signOutBtn {
             display: none;
             cursor: pointer;
@@ -33,29 +13,26 @@
         /*    cursor: pointer;*/
         /*}*/
     </style>
-</head>
 
-<body>
-
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="#">Sky Ratings</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div id="alertDiv">
-<!--                        <div id="alertMessage" class="alert alert-warning" role="alert">You Are Not Registered</div>-->
-            </div>
+{% endblock %}
 
 
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"><a id="loginBtn" href="#loginModal" class="nav-link edit" data-toggle="modal">Login</a></li>
-                    <li class="nav-item"><a id="signUpBtn" href="#signUpModal" class="nav-link edit" data-toggle="modal">Sign Up</a></li>
-                    <li class="nav-item"><a id="signOutBtn" class="nav-link edit" data-toggle="modal">Sign Out</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% block navBarItems %}
+<!--    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>-->
+<!--    <li class="nav-item"><a class="nav-link" href="index.html">Movies</a></li>-->
+<!--    <li class="nav-item"><a class="nav-link" href="index.html">TV Shows</a></li>-->
+
+<!--    <li class="nav-item"></li>-->
+<!--    <li class="nav-item"></li>-->
+
+<!--    <li class="nav-item"><a id="loginBtn" href="#loginModal" class="nav-link edit" data-toggle="modal">Login</a></li>-->
+<!--    <li class="nav-item"><a id="signUpBtn" href="#signUpModal" class="nav-link edit" data-toggle="modal">Sign Up</a></li>-->
+<!--    <li class="nav-item"><a id="signOutBtn" class="nav-link edit" data-toggle="modal">Sign Out</a></li>-->
+{% endblock %}
+
+
+{% block body %}
+
     <main class="page landing-page">
 
         <section id="frontPageMovieIMG" class="clean-block clean-hero" style="background-image:url(&quot;static/img/movies/mortal-kombat-2021.jpg&quot);color:rgba(7,7,7,0.85);">
@@ -69,7 +46,7 @@
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-info">Features</h2>
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>-->
+                    <!--                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>-->
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-5 feature-box"><i class="icon-star icon"></i>
@@ -95,13 +72,13 @@
             <div class="container">
                 <div class="block-heading">
                     <h2 class="text-info">Trending Movies</h2>
-<!--                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>-->
+                    <!--                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>-->
                 </div>
                 <div class="carousel slide" data-ride="carousel" id="carousel-1">
                     <div id="trendingMoviesContainer" class="carousel-inner">
-<!--                        <div class="carousel-item active"><img class="w-100 d-block" src="https://image.tmdb.org/t/p/original/keIxh0wPr2Ymj0Btjh4gW7JJ89e.jpg" alt="Slide Image"></div>-->
-<!--                        <div class="carousel-item"><img class="w-100 d-block" src="{{ url_for('static', filename='img/scenery/image4.jpg') }}" alt="Slide Image"></div>-->
-<!--                        <div class="carousel-item"><img class="w-100 d-block" src="{{ url_for('static', filename='img/scenery/image6.jpg') }}" alt="Slide Image"></div>-->
+                        <!--                        <div class="carousel-item active"><img class="w-100 d-block" src="https://image.tmdb.org/t/p/original/keIxh0wPr2Ymj0Btjh4gW7JJ89e.jpg" alt="Slide Image"></div>-->
+                        <!--                        <div class="carousel-item"><img class="w-100 d-block" src="{{ url_for('static', filename='img/scenery/image4.jpg') }}" alt="Slide Image"></div>-->
+                        <!--                        <div class="carousel-item"><img class="w-100 d-block" src="{{ url_for('static', filename='img/scenery/image6.jpg') }}" alt="Slide Image"></div>-->
                     </div>
                     <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
                     <ol class="carousel-indicators">
@@ -112,23 +89,25 @@
                 </div>
             </div>
         </section>
-        <section class="clean-block clean-info dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Info</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6"><img class="img-thumbnail" src="{{ url_for('static', filename = 'img/scenery/image5.jpg') }}"></div>
-                    <div class="col-md-6">
-                        <h3>Lorem impsum dolor sit amet</h3>
-                        <div class="getting-started-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        </div><button class="btn btn-outline-primary btn-lg" type="button">Join Now</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+
+        <!--        <section class="clean-block clean-info dark">-->
+        <!--            <div class="container">-->
+        <!--                <div class="block-heading">-->
+        <!--                    <h2 class="text-info">Info</h2>-->
+        <!--                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>-->
+        <!--                </div>-->
+        <!--                <div class="row align-items-center">-->
+        <!--                    <div class="col-md-6"><img class="img-thumbnail" src="{{ url_for('static', filename = 'img/scenery/image5.jpg') }}"></div>-->
+        <!--                    <div class="col-md-6">-->
+        <!--                        <h3>Lorem impsum dolor sit amet</h3>-->
+        <!--                        <div class="getting-started-info">-->
+        <!--                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>-->
+        <!--                        </div><button class="btn btn-outline-primary btn-lg" type="button">Join Now</button>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </section>-->
+
         <section class="clean-block about-us">
             <div class="container">
                 <div class="block-heading">
@@ -167,163 +146,18 @@
             </div>
         </section>
     </main>
-    <footer class="page-footer dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h5>Get started</h5>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
-                        <li><a href="#">Downloads</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>About us</h5>
-                    <ul>
-                        <li><a href="#">Company Information</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Support</h5>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help desk</a></li>
-                        <li><a href="#">Forums</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Legal</h5>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-<!--            <p>© 2021 Copyright Text</p>-->
-            <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
-        </div>
-    </footer>
 
-    <!-- MODAL BOXES  -->
 
-    <!-- LOGIN MODAL -->
-    <div id="loginModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="loginForm">
-                    <!-- HEADER -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Login</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <!-- BODY -->
-                    <div class="modal-body">
-                        <!-- USERNAME -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="userNameInput">Username</label>
-                            <input id="userNameInput" class="form-control" autocomplete="off">
-                        </div>
-                        <!-- USER PASSWORD -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="userPasswordInput">Password</label>
-                            <input id="userPasswordInput" class="form-control" autocomplete="off" type="password">
-                        </div>
-                        <p id="loginModalErrorMessage" class="text-warning"></p>
-                    </div>
-                    <!-- LOGIN AND CANCEL BUTTON -->
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" id="loginModalCancelBtn" data-dismiss="modal" value="Cancel">
-                        <button id="loginModalBtn" class="btn btn-primary" type="button" disabled>Login</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <!-- SIGN UP MODAL -->
-    <div id="signUpModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="signUpForm">
-                    <!-- HEADER -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Sign Up</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <!-- BODY -->
-                    <div class="modal-body">
-                        <!-- USERNAME -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="signUpUserNameInput">Username</label>
-                            <input id="signUpUserNameInput" class="form-control" autocomplete="off">
-                        </div>
-                        <!-- EMAIL -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="signUpUserEmailInput">Email</label>
-                            <input id="signUpUserEmailInput" class="form-control" autocomplete="off">
-                        </div>
-                        <p class="text-warning"><small></small></p>
-                        <!-- USER PASSWORD -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="signUpUserPasswordInput">Password</label>
-                            <input id="signUpUserPasswordInput" class="form-control" autocomplete="off" type="password">
-                        </div>
-                        <!-- CONFIRM PASSWORD -->
-                        <div class="form-group">
-                            <label class="inputLabel" for="signUpConfirmPasswordInput">Confirm Password</label>
-                            <input id="signUpConfirmPasswordInput" class="form-control" autocomplete="off" type="password">
-                        </div>
-                        <p id="signUpModalErrorMessage" class="text-warning"></p>
-                    </div>
-                    <!-- SAVE AND CANCEL BUTTON -->
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" id="signUpModalCancelBtn" data-dismiss="modal" value="Cancel">
-                        <button id="signUpModalBtn" class="btn btn-primary" type="button" disabled>Sign Up</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-<!--    // USAGE-->
-    <a href="#loginModal" class="edit" data-toggle="modal">
-        Click
-<!--        <button id="buttonID" class="btn btn-light">Button Text</button>-->
-    </a>
+
+
+{% endblock %}
+
+{% block script %}
 
     <script>
-        class UI {
-            static userLoggedIn() {
-                let loginBtn = document.querySelector('#loginBtn')
-                let signUpBtn = document.querySelector('#signUpBtn')
-                let signOutBtn = document.querySelector('#signOutBtn')
-
-                // Hide login and sign-up btn
-                loginBtn.style.display = 'none'
-                signUpBtn.style.display = 'none'
-                // Show signOutBtn btn
-                signOutBtn.style.display = 'block'
-
-            }
-
-            static userSignedOut() {
-                let loginBtn = document.querySelector('#loginBtn')
-                let signUpBtn = document.querySelector('#signUpBtn')
-                let signOutBtn = document.querySelector('#signOutBtn')
-
-                // Show login and sign-up btn
-                loginBtn.style.display = 'block'
-                signUpBtn.style.display = 'block'
-                // Hide signOutBtn
-                signOutBtn.style.display = 'none'
-            }
-
+        class indexUI {
             static populateTrendingMovies() {
                 const request = new XMLHttpRequest()
                 request.open('GET', '/getTrendingMovies')
@@ -345,8 +179,8 @@
                                 className = 'carousel-item'
 
                             trendingMoviesContainer.innerHTML += `
-                                <div class="${className}"><img class="w-100 d-block" src=${imgSRC} alt="Slide Image"></div>
-                            `
+                                    <div class="${className}"><img class="w-100 d-block" src=${imgSRC} alt="Slide Image"></div>
+                                `
                         }
                     }
                     else {
@@ -381,178 +215,11 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             checkIfUserIsStillLoggedIn()
-            UI.updateFrontPageMovieIMG()
-            UI.populateTrendingMovies()
-
-        })
-        /* ON-CLICK EVENTS */
-
-        // Login Btn
-        document.querySelector('#loginModalBtn').addEventListener('click', () => {
-            let username = document.querySelector('#userNameInput').value
-            let user_password = document.querySelector('#userPasswordInput').value
-            let loginModalErrorMessage = document.querySelector('#loginModalErrorMessage')
-            let cancelBtn = document.querySelector('#loginModalCancelBtn')
-
-
-            const request = new XMLHttpRequest()
-            request.open('POST', `/loginUser/${username}/${user_password}`)
-            request.onload = () => {
-                const Response = request.responseText
-                if (Response === 'Logged In') {
-                    cancelBtn.click()
-                    UI.userLoggedIn()
-                    showAlert('Logged In', 'primary')
-
-                }
-                else if (Response === 'Invalid Credentials') {
-                    loginModalErrorMessage.textContent = 'Invalid Credentials'
-                    setTimeout(() => {
-                        loginModalErrorMessage.textContent = ''
-                    }, 2000)
-
-                }
-            }
-            request.send()
-        })
-
-        // Sign-Up Btn
-        document.querySelector('#signUpModalBtn').addEventListener('click', () => {
-            let username = document.querySelector('#signUpUserNameInput').value
-            let user_email = document.querySelector('#signUpUserEmailInput').value
-            let user_password = document.querySelector('#signUpUserPasswordInput').value
-            let cancelBtn = document.querySelector('#signUpModalCancelBtn')
-            let signUpModalErrorMessages = document.querySelector('#signUpModalErrorMessage')
-
-            const request = new XMLHttpRequest()
-
-            request.open('POST', `/signUpUser/${username}/${user_email}/${user_password}`)
-            request.onload = () => {
-                const Response = request.responseText
-                if (Response === 'Signed Up') {
-                    cancelBtn.click()
-                    UI.userLoggedIn()
-                }
-                else if (Response === 'User Already Signed Up') {
-                    signUpModalErrorMessages.textContent = 'You Have Already Signed Up'
-                    setTimeout(() => {
-                        signUpModalErrorMessages.textContent = ''
-                    }, 2000)
-                }
-
-
-            }
-            request.send()
+            indexUI.updateFrontPageMovieIMG()
+            indexUI.populateTrendingMovies()
 
         })
 
-        // Sign-Out Btn
-        document.querySelector('#signOutBtn').addEventListener('click', () => {
-            UI.userSignedOut()
-            const request = new XMLHttpRequest()
-            request.open('POST', `/signOut`)
-            request.onload = () => {
-                showAlert('Signed Out', 'danger')
-            }
-            request.send()
-        })
-
-        /* VALIDATE LOGIN FORM */
-        document.querySelector('#loginForm').addEventListener('keyup', () => {
-            let userNameInput = document.querySelector('#userNameInput')
-            let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
-            let loginBtn = document.querySelector('#loginModalBtn')
-
-            if (userNameInput.value !== '' && userPasswordInput.value !== '') {
-                loginBtn.disabled = false
-            }
-            else {
-                loginBtn.disabled = true
-            }
-        })
-        /* VALIDATE SIGN-UP FORM */
-        document.querySelector('#signUpForm').addEventListener('keyup', () => {
-            let userNameInput = document.querySelector('#signUpUserNameInput')
-            let userEmailInput = document.querySelector('#signUpUserEmailInput')
-            let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
-            let confirmUserPasswordInput = document.querySelector('#signUpConfirmPasswordInput')
-            let signUpBtn = document.querySelector('#signUpModalBtn')
-
-            passwordsMatch = true
-            if (userPasswordInput.value !== confirmUserPasswordInput.value) {
-                passwordsMatch = false
-            }
-            else {
-                passwordsMatch = true
-            }
-
-            if (!(passwordsMatch) && confirmUserPasswordInput.value !== '') {
-                confirmUserPasswordInput.style.borderColor = 'red'
-            }
-            else {
-                confirmUserPasswordInput.style.borderColor = ''
-            }
-
-            if (userNameInput.value !== '' && userEmailInput.value !== '' && passwordsMatch) {
-                signUpBtn.disabled = false
-            }
-            else {
-                signUpBtn.disabled = true
-            }
-
-        })
-
-
-
-        // Show alert
-        function showAlert(alertText, type) {
-            if (type === undefined || !(['primary', 'warning', 'danger', 'success'].includes(type))) {
-                type = 'primary'
-            }
-            // Create alert div
-            const alertDiv = document.createElement('div')
-            alertDiv.role = 'alert'
-            alertDiv.className = `alert alert-${type}`
-            alertDiv.id = 'alertMessage'
-            alertDiv.style.borderRadius = '10px'
-            alertDiv.style.margin = '0'
-            alertDiv.textContent = alertText
-            if (type === 'danger') {
-                // alertDiv.style.backgroundColor = 'rgb(209,13,13)'
-            }
-            if (type === 'primary') {
-                // alertDiv.style.backgroundColor = 'rgb(80, 113, 213)'
-            }
-            if (type === 'success') {
-                // alertDiv.style.backgroundColor = 'rgb(76, 180, 40)'
-            }
-            if (type === 'warning') {
-                // alertDiv.style.backgroundColor = 'rgb(227, 148, 16)'
-            }
-
-            // Add alert to page
-            document.querySelector('#alertDiv').appendChild(alertDiv)
-
-            // Remove alert
-            setTimeout(()=>{alertDiv.remove()}, 2000)
-        }
-
-        function checkIfUserIsStillLoggedIn() {
-            const request = new XMLHttpRequest()
-
-            request.open('GET', `/checkIfUserIsStillLoggedIn`)
-            request.onload = () =>{
-                const Response = JSON.parse(request.responseText)
-                if (Response === true) {
-                    UI.userLoggedIn()
-                }
-                else {
-                    UI.userSignedOut()
-                }
-
-            }
-            request.send()
-        }
 
 
     </script>
@@ -563,6 +230,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="{{ url_for('static', filename='js/smoothproducts.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
-</body>
 
-</html>
+{% endblock %}

@@ -78,18 +78,6 @@ def loginUser(userName, userPassword):
             return "Signed Up"
         return "Invalid Credentials"
 
-
-@app.route("/getTrendingMovies", methods=['GET'])
-def getTrendingMovies():
-    url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={TMDB_API_KEY}"
-    response = requests.request("GET", url)
-    if response.status_code == 200:
-        JSON_DATA = json.loads(response.text)
-        return jsonify(JSON_DATA)
-    else:
-        return "Something went wrong with the url"
-
-
 @app.route("/signUpUser/<string:userName>/<string:userEmail>/<string:userPassword>", methods=['POST'])
 def signUpUser(userName, userEmail, userPassword):
     userPassword = hash_password(userPassword)
@@ -102,6 +90,24 @@ def signUpUser(userName, userEmail, userPassword):
         return redirect(f"/loginUser/{userName}/{userPassword}")
 
 
+@app.route("/movies", methods=['GET'])
+def movies():
+    return render_template("movies.html")
+
+@app.route("/getTrendingMovies", methods=['GET'])
+def getTrendingMovies():
+    url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={TMDB_API_KEY}"
+    response = requests.request("GET", url)
+    if response.status_code == 200:
+        JSON_DATA = json.loads(response.text)
+        return jsonify(JSON_DATA)
+    else:
+        return "Something went wrong with the url"
+
+
+
+
+
 @app.route("/checkIfUserIsStillLoggedIn", methods=['GET'])
 def checkIfUserIsStillLoggedIn():
     return json.dumps(True) if 'logged_in' in session else json.dumps(False)
@@ -110,6 +116,11 @@ def checkIfUserIsStillLoggedIn():
 def signOut():
     session.clear()
     return "Signed Out"
+
+
+@app.route("/test", methods=['GET'])
+def test():
+    return render_template('layout.html')
 
 def hash_password(password):
     return hashlib.sha256(str.encode(password)).hexdigest()
