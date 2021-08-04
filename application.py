@@ -19,6 +19,8 @@ from datetime import date, timedelta, tzinfo, datetime
 from pytz import timezone
 from math import inf
 
+from Methods import convertDateFormats
+
 
 
 # Check for environment variables
@@ -60,7 +62,6 @@ TMDB_API_KEY = os.getenv('TMDB_API_KEY')
 
 @app.route("/", methods=['GET'])
 def index():
-    print(f"API Key: {TMDB_API_KEY}")
     return render_template("index.html")
 
 
@@ -104,6 +105,19 @@ def getTrendingMovies():
     else:
         return "Something went wrong with the url"
 
+@app.route("/getMovies/<string:sort>", methods=['GET'])
+def getMovies(sort):
+    supportedSorts = ['popular', 'latest']
+    if sort not in supportedSorts:
+        return f"{sort} is not a supported sort"
+
+    url = f"https://api.themoviedb.org/3/movie/{sort}?api_key={TMDB_API_KEY}"
+    response = requests.request("GET", url)
+    if response.status_code == 200:
+        JSON_DATA = json.loads(response.text)
+        return jsonify(JSON_DATA)
+    else:
+        return "Something went wrong with the url"
 
 
 

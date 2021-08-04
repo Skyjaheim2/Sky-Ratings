@@ -3,14 +3,60 @@
 {% block title %} Movies {% endblock %}
 
 {% block stylesheet %}
-<style>
-    #displayMovies {
-        background-color: white;
-    }
-</style>
+    <style>
+        #displayMovies {
+            background-color: white;
+        }
+        .container-2 {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .movies-option-container {
+            margin-left: 10px;
+            /*border: 1px solid darkblue;*/
+            height: 200px;
+            width: 300px;
+
+        }
+        .movies-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: auto;
+            /*border: 1px solid black;*/
+            min-height: 1000px;
+            width: 1000px;
+        }
+        .movie-item {
+            text-align: center;
+            border-radius: 10px;
+            height: 400px;
+            max-width: 200px;
+            margin: 15px;
+            box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.5);
+        }
+        .movie-title {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .movie-release_date {
+            /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
+            /*font-family: "Times New Roman", Symbola, serif;*/
+        }
+        .movie-thumbnail {
+            /*margin: 15px;*/
+            margin-bottom: 10px;
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
 {% endblock %}
 
 {% block navBarItems %}
+
 {% endblock %}
 
 {% block body %}
@@ -24,13 +70,75 @@
             <br>
             <h2>Movies</h2>
         </div>
-        <div class="text">
+        <div class="text"></div>
 
+        <div class="container-2">
+            <div class="movies-option-container">
+                Sort: Popular Movies
+            </div>
+            <div class="movies-container">
+<!--                <div class="movie-item">-->
+<!--                    <img class="movie-thumbnail" src="https://image.tmdb.org/t/p/original/9dKCd55IuTT5QRs989m9Qlb7d2B.jpg" alt="">-->
+<!--                    <div class="movie-title">Jungle Cruise</div>-->
+<!--                    <div class="movie-release_date">July 28, 2021</div>-->
+<!--                </div>-->
+
+            </div>
         </div>
     </section>
 </main>
 {% endblock %}
 
 {% block script %}
+
+    <script>
+        class moviesUI {
+            static updateHeaderButtons() {
+                let moviesHeaderBtn = document.querySelector('#moviesHeaderBtn')
+                let allHeaderBtn = document.querySelectorAll('.nav-link')
+                allHeaderBtn.forEach((btn) => {
+                    if (btn.className === 'nav-link active') {
+                        btn.className = 'nav-link'
+                    }
+                })
+                moviesHeaderBtn.classList.add('active')
+            }
+            static populateMovies(sort) {
+                const request = new XMLHttpRequest()
+                request.open('GET', `/getMovies/${sort}`)
+                request.onload = () => {
+                    const Response = request.responseText
+                    if (Response !== 'Something went wrong with the url') {
+                        const data = JSON.parse(Response)
+                        let moviesContainer = document.querySelector('.movies-container')
+                        let maxNumOfMoviesToPopulate = 12
+                        for (let i = 0; i < maxNumOfMoviesToPopulate; i += 1) {
+                            // Create html object
+                            const title = data['results'][i]['title']
+                            const release_date = data['results'][i]['release_date']
+                            const thumbnailPath = data['results'][i]['poster_path']
+                            const thumbnailImgURL = `https://image.tmdb.org/t/p/original/${thumbnailPath}`
+
+                            moviesContainer.innerHTML += `
+                                <div class="movie-item">
+                                    <img class="movie-thumbnail" src=${thumbnailImgURL} alt="">
+                                        <div class="movie-title">${title}</div>
+                                        <div class="movie-release_date">${release_date}</div>
+                                </div>
+
+                            `
+                        }
+                    }
+                }
+                request.send()
+            }
+
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            moviesUI.updateHeaderButtons()
+            moviesUI.populateMovies('popular')
+        })
+    </script>
 {% endblock %}
 
