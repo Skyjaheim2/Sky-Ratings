@@ -4,6 +4,7 @@ import hashlib
 import smtplib
 import json
 from email.message import EmailMessage
+from math import floor
 
 from flask import Flask, session, render_template, request, redirect, jsonify
 from flask_session import Session
@@ -105,19 +106,31 @@ def getTrendingMovies():
     else:
         return "Something went wrong with the url"
 
-@app.route("/getMovies/<string:sort>", methods=['GET'])
-def getMovies(sort):
-    supportedSorts = ['popular', 'latest']
-    if sort not in supportedSorts:
-        return f"{sort} is not a supported sort"
+@app.route("/getMovies/<string:sort>/<string:numMoviesToGet>", methods=['GET'])
+def getMovies(sort, numMoviesToGet):
+    """
+    Error Codes: -1: Something went wrong with thr url
+                 -2: Invalid sort
+    """
+    if not numMoviesToGet.isdigit():
+        return '-3'
 
-    url = f"https://api.themoviedb.org/3/movie/{sort}?api_key={TMDB_API_KEY}"
+    numMoviesToGet = int(numMoviesToGet)
+    pageNumber = floor(numMoviesToGet/10)
+    if pageNumber == 0:
+        pageNumber = 1
+
+    supportedSorts = ['popular', 'latest', 'top_rated', 'now_playing', 'upcoming']
+    if sort not in supportedSorts:
+        return '-2'
+
+    url = f"https://api.themoviedb.org/3/movie/{sort}?api_key={TMDB_API_KEY}&page={pageNumber}"
     response = requests.request("GET", url)
     if response.status_code == 200:
         JSON_DATA = json.loads(response.text)
         return jsonify(JSON_DATA)
     else:
-        return "Something went wrong with the url"
+        return '-1'
 
 
 

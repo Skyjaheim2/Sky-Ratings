@@ -7,6 +7,15 @@
         #displayMovies {
             background-color: white;
         }
+        #sortSelect {
+            width: 70%;
+            /*border-radius: 5px;*/
+            border: none;
+            box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.31);
+        }
+        #loadMoreBtn {
+
+        }
         .container-2 {
             display: flex;
             flex-wrap: wrap;
@@ -52,6 +61,11 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+        .load-more-container {
+            margin-top: 30px;
+            margin-left: 400px;
+            width: 800px;
+        }
     </style>
 {% endblock %}
 
@@ -74,7 +88,13 @@
 
         <div class="container-2">
             <div class="movies-option-container">
-                Sort: Popular Movies
+                <label for="sortSelect" class="inputLabel">Sort</label>
+                <select id="sortSelect" class="form-control">
+                    <option value="popular">Popular Movies</option>
+                    <option value="upcoming">Upcoming Movies</option>
+                    <option value="now_playing">Now Playing Movies</option>
+                    <option value="top_rated">Top Rated Movies</option>
+                </select>
             </div>
             <div class="movies-container">
 <!--                <div class="movie-item">-->
@@ -84,6 +104,11 @@
 <!--                </div>-->
 
             </div>
+
+            <div class="load-more-container">
+                <button id="loadMoreBtn" class="btn btn-primary btn-block">Load More</button>
+            </div>
+
         </div>
     </section>
 </main>
@@ -103,16 +128,23 @@
                 })
                 moviesHeaderBtn.classList.add('active')
             }
-            static populateMovies(sort) {
+            static populateMovies(sort, numMoviesToPopulate=20, updating=false) {
                 const request = new XMLHttpRequest()
-                request.open('GET', `/getMovies/${sort}`)
+                request.open('GET', `/getMovies/${sort}/${numMoviesToPopulate}`)
                 request.onload = () => {
                     const Response = request.responseText
-                    if (Response !== 'Something went wrong with the url') {
+                    const errorCodes = {
+                        '-1': 'Something went wrong with the url',
+                        '-2': `${sort} is not a supported sort`,
+                        '-3': 'Invalid numMovies to display'
+                    }
+
+                    if (!(Response in errorCodes)) {
                         const data = JSON.parse(Response)
                         let moviesContainer = document.querySelector('.movies-container')
-                        let maxNumOfMoviesToPopulate = 12
-                        for (let i = 0; i < maxNumOfMoviesToPopulate; i += 1) {
+                        if (!updating)
+                            moviesContainer.innerHTML = ''
+                        for (let i = 0; i < 20; i += 1) {
                             // Create html object
                             const title = data['results'][i]['title']
                             const release_date = data['results'][i]['release_date']
@@ -129,6 +161,9 @@
                             `
                         }
                     }
+                    else {
+                        console.log(errorCodes[Response])
+                    }
                 }
                 request.send()
             }
@@ -138,6 +173,22 @@
         document.addEventListener('DOMContentLoaded', () => {
             moviesUI.updateHeaderButtons()
             moviesUI.populateMovies('popular')
+        })
+
+
+        /* ON-CLICK EVENTS */
+
+        // loadMoreBtn
+        document.querySelector('#loadMoreBtn').addEventListener('click', () => {
+            let numMoviesDisplayed = document.querySelectorAll('.movie-item').length
+            moviesUI.populateMovies('popular', numMoviesDisplayed+20, true)
+        })
+
+        /* ON-CHANGE EVENTS */
+
+        // sortSelect
+        document.querySelector('#sortSelect').addEventListener('change', function () {
+            moviesUI.populateMovies(this.value)
         })
     </script>
 {% endblock %}
