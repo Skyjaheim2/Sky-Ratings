@@ -14,7 +14,8 @@
             box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.31);
         }
         #loadMoreBtn {
-
+            margin-left: 430px;
+            width: 700px;
         }
         .container-2 {
             display: flex;
@@ -34,6 +35,7 @@
             /*border: 1px solid black;*/
             min-height: 1000px;
             width: 1000px;
+            margin-bottom: 15px;
         }
         .movie-item {
             text-align: center;
@@ -51,6 +53,7 @@
         .movie-release_date {
             /*font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;*/
             /*font-family: "Times New Roman", Symbola, serif;*/
+            color: #878686;
         }
         .movie-thumbnail {
             /*margin: 15px;*/
@@ -61,10 +64,41 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
-        .load-more-container {
-            margin-top: 30px;
-            margin-left: 400px;
-            width: 800px;
+        .movie-overview {
+            display: none;
+        }
+        /* MEDIA QUERIES */
+        @media only screen and (max-width: 1000px) {
+            #loadMoreBtn {
+                margin: auto;
+                width: 80%;
+            }
+        }
+        @media only screen and (max-width: 500px) {
+            .movies-container {
+                display: block;
+            }
+            .movie-item {
+                min-width: 440px;
+                height: 151px;
+            }
+            .movie-thumbnail {
+                float: left;
+                max-width: 150px;
+                height: 150px;
+            }
+            .movie-release_date {
+                margin-bottom: 10px;
+            }
+            .movie-overview {
+                display: block;
+            }
+
+        }
+        @media only screen and (max-width: 420px) {
+            #loadMoreBtn {
+                width: 100%;
+            }
         }
     </style>
 {% endblock %}
@@ -97,17 +131,21 @@
                 </select>
             </div>
             <div class="movies-container">
+
 <!--                <div class="movie-item">-->
 <!--                    <img class="movie-thumbnail" src="https://image.tmdb.org/t/p/original/9dKCd55IuTT5QRs989m9Qlb7d2B.jpg" alt="">-->
 <!--                    <div class="movie-title">Jungle Cruise</div>-->
 <!--                    <div class="movie-release_date">July 28, 2021</div>-->
+<!--                    <div class="movie-overview">Dr. Lily Houghton enlists the aid of wisecracking skipper Frank Wolff.</div>-->
 <!--                </div>-->
 
             </div>
 
-            <div class="load-more-container">
+<!--            <div class="text-center">-->
                 <button id="loadMoreBtn" class="btn btn-primary btn-block">Load More</button>
-            </div>
+<!--            </div>-->
+
+
 
         </div>
     </section>
@@ -147,19 +185,23 @@
                         for (let i = 0; i < 20; i += 1) {
                             // Create html object
                             const title = data['results'][i]['title']
-                            const release_date = data['results'][i]['release_date']
+                            const releaseDate = data['results'][i]['release_date']
                             const thumbnailPath = data['results'][i]['poster_path']
+                            const movieOverview = trimText(data['results'][i]['overview'], 70)
                             const thumbnailImgURL = `https://image.tmdb.org/t/p/original/${thumbnailPath}`
 
                             moviesContainer.innerHTML += `
                                 <div class="movie-item">
                                     <img class="movie-thumbnail" src=${thumbnailImgURL} alt="">
                                         <div class="movie-title">${title}</div>
-                                        <div class="movie-release_date">${release_date}</div>
+                                        <div class="movie-release_date">${releaseDate}</div>
+                                        <div class="movie-overview">${movieOverview}</div>
                                 </div>
 
                             `
+
                         }
+
                     }
                     else {
                         console.log(errorCodes[Response])
@@ -190,6 +232,20 @@
         document.querySelector('#sortSelect').addEventListener('change', function () {
             moviesUI.populateMovies(this.value)
         })
+
+
+        function trimText(text, length) {
+            if (text.length <= length) {
+                return text
+            }
+            let newTextToReturn = ''
+            for (let i = 0; i < length-1; i++) {
+                newTextToReturn += text[i]
+            }
+            newTextToReturn += '...'
+
+            return newTextToReturn
+        }
     </script>
 {% endblock %}
 

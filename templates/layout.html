@@ -16,6 +16,13 @@
     {% endblock %}
 
     <style>
+        #skyRatingsHeaderBtn {
+            /*margin-right: 50%;*/
+        }
+        #navBarBtn {
+            position: relative;
+            /*float: right;*/
+        }
         .inputLabel {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 18px;
@@ -27,11 +34,40 @@
         /*#signOutBtn :hover {*/
         /*    cursor: pointer;*/
         /*}*/
+
+        @media only screen and (max-width: 990px) {
+            #skyRatingsHeaderBtn {
+                margin-right: 70%;
+            }
+        }
+        @media only screen and (max-width: 769px) {
+            #navBarBtn {
+                left: 10%;
+            }
+            #skyRatingsHeaderBtn {
+                margin-right: 50%;
+            }
+
+        }
+        @media only screen and (max-width: 420px) {
+            #navBarBtn {
+                left: 8%;
+            }
+            #skyRatingsHeaderBtn {
+                margin-right: 30%;
+            }
+            .page {
+                width: 470px;
+            }
+            .page-footer {
+                width: 470px;
+            }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="#">Sky Ratings</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a id="skyRatingsHeaderBtn" class="navbar-brand logo" href="#">Sky Ratings</a><button id="navBarBtn" data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div id="alertDiv">
                 <!--                        <div id="alertMessage" class="alert alert-warning" role="alert">You Are Not Registered</div>-->
             </div>
@@ -41,7 +77,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a id="homeHeaderBtn" class="nav-link active" href="{{ url_for('index') }}">Home</a></li>
                     <li class="nav-item"><a id="moviesHeaderBtn" class="nav-link" href="{{ url_for('movies') }}">Movies</a></li>
-                    <li class="nav-item"><a id="tvShowsHeaderBtn" class="nav-link" href="index.html">TV Shows</a></li>
+                    <li class="nav-item"><a id="tvShowsHeaderBtn" class="nav-link" href="#">TV Shows</a></li>
 
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>

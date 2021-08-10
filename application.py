@@ -119,7 +119,10 @@ def getMovies(sort, numMoviesToGet):
     pageNumber = floor(numMoviesToGet/10)
     if pageNumber == 0:
         pageNumber = 1
+    if numMoviesToGet <= 20:
+        pageNumber = 1
 
+    # print(pageNumber)
     supportedSorts = ['popular', 'latest', 'top_rated', 'now_playing', 'upcoming']
     if sort not in supportedSorts:
         return '-2'
