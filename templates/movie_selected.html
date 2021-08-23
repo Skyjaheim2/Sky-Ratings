@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+
+{% block title %} Movie {% endblock %}
+
+{% block stylesheet %}
+
+    <style>
+        #Title {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            text-align: left;
+            /*margin-left: 80px;*/
+            font-weight: bold;
+            font-size: 40px;
+        }
+        #tagline {
+            color: darkgray;
+        }
+        #overviewHeading {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: bold;
+            color: white;
+        }
+        #overview {
+            line-height: 20px;
+            font-size: 15px;
+        }
+        #genres {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 17px;
+        }
+        .movie-info-container {
+            /*display: flex;*/
+            /*flex-wrap: wrap;*/
+            position: relative;
+            right: 22%;
+        }
+        .movie-thumbnail {
+            float: left;
+            /*margin-top: 100px;*/
+            margin-bottom: 10px;
+            margin-right: 10px ;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .movie-info-text-container {
+            text-align: left;
+            line-height: 10px;
+            width: 1000px;
+            margin-top: 60px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+<main class="page landing-page">
+    <section id="movieBackgroundIMG" class="clean-block clean-hero" style="color:rgba(7,7,7,0.85);">
+        <div class="movie-info-container text">
+            <div>
+                <img id="movieThumbnailIMG" class="movie-thumbnail">
+            </div>
+            <div class="movie-info-text-container" data-id="{{ id }}">
+                <h2 id="Title"></h2>
+                <p id="releaseDate"></p>
+                <p id="tagline"></p>
+                <h5 id="overviewHeading">Overview</h5>
+                <p id="overview"></p>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        displaySelectedMovie()
+    })
+
+    function displaySelectedMovie() {
+        const movieID = document.querySelector('.movie-info-text-container').dataset.id
+        const request = new XMLHttpRequest()
+        request.open('GET', `/getSelectedMovie/${movieID}`)
+        request.onload = () => {
+            const Response = request.responseText
+            const errorCodes = {
+                '-1': 'Invalid ID'
+            }
+            if (!(Response in errorCodes)) {
+                const Movie = JSON.parse(Response)
+                console.log(Movie)
+
+                /* GET TEXT DIVS */
+                let titleText = document.querySelector('#Title')
+                let releaseDateText = document.querySelector('#releaseDate')
+                let genresText = document.querySelector('#genres')
+                let taglineText = document.querySelector('#tagline')
+                let overviewText = document.querySelector('#overview')
+                let movieThumbnailIMG = document.querySelector('#movieThumbnailIMG')
+                let movieBackgroundIMG = document.querySelector('#movieBackgroundIMG')
+
+                /* POPULATE TEXT DIVS */
+                titleText.textContent = Movie.title
+                // releaseDateText.textContent = Movie.release_date
+                releaseDateText.innerHTML = `${Movie.release_date} &#x2022 <span id="genres">${Movie.genres}</span>`
+                // genresText.textContent = 'Jaheim'
+                taglineText.textContent = Movie.tagline
+                overviewText.textContent = Movie.overview
+
+                /* POPULATE IMAGES */
+                movieThumbnailIMG.src = Movie.poster_url
+                movieBackgroundIMG.style.backgroundImage = `url(${Movie.backdrop_url})`
+
+
+
+
+            }
+            else {
+                console.log(errorCodes[Response])
+            }
+
+        }
+        request.send()
+    }
+</script>
+
+{% endblock %}

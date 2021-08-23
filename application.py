@@ -20,7 +20,7 @@ from datetime import date, timedelta, tzinfo, datetime
 from pytz import timezone
 from math import inf
 
-from Methods import convertDateFormats
+from Methods import convertDateFormats, getGenres
 
 
 
@@ -135,7 +135,48 @@ def getMovies(sort, numMoviesToGet):
     else:
         return '-1'
 
+@app.route("/getSelectedMovie/<string:id>", methods=['GET'])
+def getSelectedMovie(id):
+    url = f"https://api.themoviedb.org/3/movie/{id}?api_key={TMDB_API_KEY}"
+    response = requests.request("GET", url)
+    JSON_DATA = json.loads(response.text)
 
+    Title = JSON_DATA['original_title']
+    Overview = JSON_DATA['overview']
+    ReleaseDate = JSON_DATA['release_date']
+    Tagline = JSON_DATA['tagline']
+    Genres = JSON_DATA['genres']
+    Status = JSON_DATA['status']
+    Budget = JSON_DATA['budget']
+    Revenue = JSON_DATA['revenue']
+    OriginalLanguage = JSON_DATA['original_language']
+
+    poster_path = JSON_DATA['poster_path']
+    backdrop_path = JSON_DATA['backdrop_path']
+
+    PosterURL = f"https://image.tmdb.org/t/p/original/{poster_path}"
+    BackdropURL = f"https://image.tmdb.org/t/p/original/{backdrop_path}"
+
+    Movie = {
+        'title': Title,
+        'overview': Overview,
+        'release_date': convertDateFormats(ReleaseDate, 'yyyy-mm-dd', 'now-format'),
+        'tagline': Tagline,
+        'genres': getGenres(Genres),
+        'status': Status,
+        'budget': Budget,
+        'revenue': Revenue,
+        'original_language': OriginalLanguage,
+        'poster_url': PosterURL,
+        'backdrop_url': BackdropURL
+    }
+
+    return jsonify(Movie)
+
+
+@app.route("/displaySelectedMovie/<string:id>")
+def displaySelectedMovie(id):
+    return render_template("movie_selected.html", id=id)
 
 
 @app.route("/checkIfUserIsStillLoggedIn", methods=['GET'])

@@ -43,3 +43,14 @@ def convertDateFormats(Date, currentFormat, newFormat):
 
             newFormat = f'{month} {day}, {year}'
             return newFormat
+
+def getGenres(genres: list):
+    genresString = ''
+    for i in range(len(genres)):
+        genre = genres[i]['name']
+        if i != len(genres)-1:
+            genresString += f"{genre}, "
+        else:
+            genresString += genre
+
+    return genresString

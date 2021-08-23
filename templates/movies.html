@@ -44,6 +44,7 @@
             max-width: 200px;
             margin: 15px;
             box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
         }
         .movie-title {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -66,6 +67,14 @@
         }
         .movie-overview {
             display: none;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+        a:hover {
+            color: black;
+            text-decoration: none;
         }
         /* MEDIA QUERIES */
         @media only screen and (max-width: 1000px) {
@@ -131,13 +140,14 @@
                 </select>
             </div>
             <div class="movies-container">
-
-<!--                <div class="movie-item">-->
-<!--                    <img class="movie-thumbnail" src="https://image.tmdb.org/t/p/original/9dKCd55IuTT5QRs989m9Qlb7d2B.jpg" alt="">-->
-<!--                    <div class="movie-title">Jungle Cruise</div>-->
-<!--                    <div class="movie-release_date">July 28, 2021</div>-->
-<!--                    <div class="movie-overview">Dr. Lily Houghton enlists the aid of wisecracking skipper Frank Wolff.</div>-->
-<!--                </div>-->
+<!--                <a href="/displaySelectedMovie/436969">-->
+<!--                    <div class="movie-item">-->
+<!--                        <img class="movie-thumbnail" src="https://image.tmdb.org/t/p/original/9dKCd55IuTT5QRs989m9Qlb7d2B.jpg" alt="">-->
+<!--                        <div class="movie-title">Jungle Cruise</div>-->
+<!--                        <div class="movie-release_date">July 28, 2021</div>-->
+<!--                        <div class="movie-overview">Dr. Lily Houghton enlists the aid of wisecracking skipper Frank Wolff.</div>-->
+<!--                    </div>-->
+<!--                </a>-->
 
             </div>
 
@@ -179,11 +189,13 @@
 
                     if (!(Response in errorCodes)) {
                         const data = JSON.parse(Response)
+                        // console.log(data['results'][0])
                         let moviesContainer = document.querySelector('.movies-container')
                         if (!updating)
                             moviesContainer.innerHTML = ''
                         for (let i = 0; i < 20; i += 1) {
                             // Create html object
+                            const id = data['results'][i]['id']
                             const title = data['results'][i]['title']
                             const releaseDate = data['results'][i]['release_date']
                             const thumbnailPath = data['results'][i]['poster_path']
@@ -191,15 +203,15 @@
                             const thumbnailImgURL = `https://image.tmdb.org/t/p/original/${thumbnailPath}`
 
                             moviesContainer.innerHTML += `
-                                <div class="movie-item">
-                                    <img class="movie-thumbnail" src=${thumbnailImgURL} alt="">
-                                        <div class="movie-title">${title}</div>
-                                        <div class="movie-release_date">${releaseDate}</div>
-                                        <div class="movie-overview">${movieOverview}</div>
-                                </div>
-
+                                <a href=/displaySelectedMovie/${id}>
+                                    <div class="movie-item" data-id=${id}>
+                                        <img class="movie-thumbnail" src=${thumbnailImgURL} alt="">
+                                            <div class="movie-title">${title}</div>
+                                            <div class="movie-release_date">${releaseDate}</div>
+                                            <div class="movie-overview">${movieOverview}</div>
+                                    </div>
+                                </a>
                             `
-
                         }
 
                     }
@@ -213,8 +225,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // alert('hey')
             moviesUI.updateHeaderButtons()
             moviesUI.populateMovies('popular')
+            // document.querySelector('#sortSelect').options[0].selected = true // Default to popular
         })
 
 
@@ -225,6 +239,7 @@
             let numMoviesDisplayed = document.querySelectorAll('.movie-item').length
             moviesUI.populateMovies('popular', numMoviesDisplayed+20, true)
         })
+
 
         /* ON-CHANGE EVENTS */
 
