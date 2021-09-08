@@ -21,6 +21,7 @@ from pytz import timezone
 from math import inf
 
 from Methods import convertDateFormats, getGenres
+from Classes import EST
 
 
 
@@ -179,9 +180,71 @@ def displaySelectedMovie(id):
     return render_template("movie_selected.html", id=id)
 
 
+@app.route("/addReview", methods=['POST'])
+def addReview():
+    now = datetime.now(EST()).date()
+    now = now.strftime("%B %d, %Y")
+
+    movieID = request.form.get('movie_id')
+    reviewerName = request.form.get('reviewer_name')
+    reviewContent = request.form.get('content')
+    reviewDate = now
+
+    newReview = Review(movie_id=movieID, reviewer_name=reviewerName, content=reviewContent, date=reviewDate)
+    newReview.addReview()
+
+    # print(f"movieID: {movieID}")
+    # print(f"reviewerName: {reviewerName}")
+    # print(f"reviewContent: {reviewContent}")
+    # print(f"reviewDate: {reviewDate}")
+
+    return "Review Added"
+
+@app.route("/getReviews/<string:movie_id>", methods=['GET'])
+def getReviews(movie_id):
+    Reviews = Review.query.filter_by(movie_id=movie_id).all()
+
+    allReviews = []
+
+    for review in Reviews:
+        allReviews.append({
+            'reviewerName': review.reviewer_name,
+            'Content': review.content,
+            'Date': review.date,
+            'reviewID': review.id
+        })
+
+    return jsonify(allReviews)
+
+@app.route("/deleteReview/<string:reviewID>", methods=['POST'])
+def deleteReview(reviewID):
+    reviewToDelete = Review.query.get(reviewID)
+    reviewToDelete.deleteReview()
+
+    return "Review Deleted"
+
+
 @app.route("/checkIfUserIsStillLoggedIn", methods=['GET'])
 def checkIfUserIsStillLoggedIn():
     return json.dumps(True) if 'logged_in' in session else json.dumps(False)
+
+@app.route('/getUserLoggedIn', methods=['GET'])
+def getUserLoggedIn():
+    if 'logged_in' in session:
+        userID = session['user_id']
+        userToGet = User.query.get(userID)
+
+        userOBJ = {
+            'name': userToGet.name,
+            'email': userToGet.email
+        }
+
+        return jsonify(userOBJ)
+
+    else:
+        return "User not logged in"
+
+
 
 @app.route("/signOut", methods=['POST'])
 def signOut():

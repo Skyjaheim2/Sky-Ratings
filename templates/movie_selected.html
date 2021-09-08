@@ -28,6 +28,20 @@
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 17px;
         }
+        #reviewsHeading {
+            margin: 15px;
+            text-align: center;
+        }
+        #writeReviewBtn {
+            background-color: #3d043d;
+            border: none;
+            border-radius: 10px;
+            position: relative;
+            left: 39%;
+            margin-bottom: 40px;
+            width: 300px;
+        }
+
         .movie-info-container {
             /*display: flex;*/
             /*flex-wrap: wrap;*/
@@ -51,6 +65,83 @@
             width: 1000px;
             margin-top: 60px;
         }
+        .reviews-container {
+            /*border: 1px solid black;*/
+            margin: auto;
+            height: auto;
+            width: 950px;
+        }
+        .review-item {
+            width: 950px;
+            height: 250px;
+            border-radius: 10px;
+            box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        .profile-pic-avatar {
+            float: left;
+            height: 80px;
+            width: 80px;
+        }
+        .delete-review-btn {
+            cursor: pointer;
+            position: absolute;
+            /*pointer-events: none;*/
+            z-index: 1;
+            left: 80%;
+            /*float: right;*/
+            height: 50px;
+            width: 50px;
+            margin: 10px;
+        }
+        .review-heading {
+            position: relative;
+            top: 4%;
+        }
+        .review-body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            position: relative;
+            top: 11%;
+            padding: 5px;
+        }
+        .reviewer-name {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: 400;
+            font-size: 22px;
+        }
+        @media only screen and (max-width: 930px) {
+            .movie-info-text-container {
+                width: 800px;
+            }
+            #movieThumbnailIMG {
+                margin-left: 80px;
+            }
+        }
+        @media only screen and (max-width: 769px) {
+            #movieThumbnailIMG {
+                margin-left: 150px;
+            }
+        }
+        @media only screen and (max-width: 665px) {
+            #Title {
+                margin-left: 45%;
+            }
+            #movieThumbnailIMG {
+                margin-left: 340px;
+            }
+            .movie-info-text-container {
+                text-align: center;
+                display: flex;
+                flex-wrap: wrap;
+                width: 750px;
+                /*align-items: start;*/
+                /*justify-content: start;*/
+            }
+            .movie-thumbnail {
+                max-width: 250px;
+                margin-top: 90px;
+            }
+        }
 
     </style>
 
@@ -66,14 +157,112 @@
             </div>
             <div class="movie-info-text-container" data-id="{{ id }}">
                 <h2 id="Title"></h2>
+                <p id="genres"></p>
                 <p id="releaseDate"></p>
                 <p id="tagline"></p>
-                <h5 id="overviewHeading">Overview</h5>
+                <h5 id="overviewHeading"></h5>
                 <p id="overview"></p>
             </div>
 
         </div>
     </section>
+
+    <section class="clean-block about-us">
+        <h3 id="reviewsHeading">Reviews</h3>
+
+        <a href="#writeReviewModal" class="edit" data-toggle="modal">
+            <button id="writeReviewBtn" class="btn btn-primary">Write a review</button>
+        </a>
+
+
+
+
+        <div class="reviews-container">
+
+<!--            <div class="review-item">-->
+<!--                <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">-->
+
+<!--                <a href="#deleteReviewModal" class="edit" data-toggle="modal">-->
+<!--                    <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">-->
+<!--                </a>-->
+
+
+<!--                <div class="review-heading">-->
+<!--                    <div class="reviewer-name">John Brown</div>-->
+<!--                    <div class="review-date">Written on August 24, 2021</div>-->
+<!--                </div>-->
+<!--                <div class="review-body">-->
+<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nisi nostrum ut. Assumenda consectetur mollitia nisi nulla voluptate! Alias at deserunt fugit maiores mollitia pariatur ratione sint veritatis voluptas voluptatem.-->
+<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consectetur, consequuntur cupiditate debitis id ipsam laborum magnam minima minus porro saepe soluta ullam voluptatibus. Consequuntur eaque quos rerum sapiente voluptates.-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="review-item">-->
+<!--                <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">-->
+<!--                <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">-->
+<!--                <div class="review-heading">-->
+<!--                    <div class="reviewer-name">Sam Lenny</div>-->
+<!--                    <div class="review-date">Written on August 21, 2021</div>-->
+<!--                </div>-->
+<!--                <div class="review-body">-->
+<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nisi nostrum ut. Assumenda consectetur mollitia nisi nulla voluptate! Alias at deserunt fugit maiores mollitia pariatur ratione sint veritatis voluptas voluptatem.-->
+<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consectetur, consequuntur cupiditate debitis id ipsam laborum magnam minima minus porro saepe soluta ullam voluptatibus. Consequuntur eaque quos rerum sapiente voluptates.-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+    </section>
+
+    <!-- Write a review modal -->
+    <div id="writeReviewModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formName">
+                    <!-- HEADER -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Write Review</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <!-- BODY -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="inputLabel" for="reviewContentInput">Review</label>
+                            <input class="form-control" id="reviewContentInput" autocomplete="off">
+                        </div>
+                        <p id="errorMessage" class="text-warning"><small></small></p>
+                    </div>
+                    <!-- SAVE AND CANCEL BUTTON -->
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" id="cancelReviewBtn" data-dismiss="modal" value="Cancel">
+                        <button id="submitReviewBtn" class="btn btn-primary" type="button" disabled>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete review modal  -->
+    <div id="deleteReviewModal" class="modal fade">
+        <div class="modal-dialog">
+            <div id="deleteReviewModalContainer" class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 id="deleteExpenseModalHeading" class="modal-title">Delete Review</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="deleteExpenseModalBodyText">Are you sure you want to delete your review?</p>
+                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                    </div>
+                    <div class="modal-footer delete-expense-modal-footer-container">
+                        <input type="button" class="btn btn-default" id="deleteReviewCancelBtn" data-dismiss="modal" value="Cancel">
+                        <button id="deleteReviewBtn" class="btn btn-danger" type="button">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 {% endblock %}
@@ -83,6 +272,89 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         displaySelectedMovie()
+        checkIfUserIsStillLoggedIn_()
+        addReviewsToPage()
+    })
+
+
+    /* ON-KEYUP EVENTS */
+
+    // Review Content
+    document.querySelector('#reviewContentInput').addEventListener('keyup', function() {
+        let reviewContent = this.value
+        let submitBtn = document.querySelector('#submitReviewBtn')
+
+        submitBtn.disabled = reviewContent === '';
+    })
+
+
+    /* ON-CLICK EVENTS */
+
+    // Submit Review
+    document.querySelector('#submitReviewBtn').addEventListener('click', () => {
+        let reviewContent = document.querySelector('#reviewContentInput').value
+        let cancelReviewBtn = document.querySelector('#cancelReviewBtn')
+
+
+        const getUserRequest = new XMLHttpRequest()
+        getUserRequest.open('GET', '/getUserLoggedIn')
+        getUserRequest.onload = () => {
+            const Response = getUserRequest.responseText
+            if (Response !== 'User not logged in') {
+                const userInfo = JSON.parse(Response)
+                username = userInfo['name']
+
+                // Review Info
+                const addReviewRequest = new XMLHttpRequest()
+                addReviewRequest.open('POST', '/addReview')
+                addReviewRequest.onload = () => {
+                    const addReviewResponse = addReviewRequest.responseText
+                    if (addReviewResponse === 'Review Added') {
+                        cancelReviewBtn.click()
+                        addReviewsToPage()
+                        showAlert('Review Added')
+                    }
+                }
+                const movieID = document.querySelector('.movie-info-text-container').dataset.id
+
+                const data = new FormData()
+                data.set('movie_id', movieID)
+                data.set('reviewer_name', username)
+                data.set('content', reviewContent)
+                addReviewRequest.send(data)
+
+
+            }
+        }
+        getUserRequest.send()
+
+
+
+    })
+
+    // Delete Review
+    document.querySelector('#deleteReviewBtn').addEventListener('click', () => {
+        let deleteReviewCancelBtn = document.querySelector('#deleteReviewCancelBtn')
+        let reviewsContainer = document.querySelector('.reviews-container')
+        let reviewItems = reviewsContainer.children
+        for (let i = 0; i < reviewItems.length; i++) {
+            if (reviewItems[i].dataset.user === 'true') {
+                const deleteReviewRequest = new XMLHttpRequest()
+                deleteReviewRequest.open('POST', `/deleteReview/${reviewItems[i].dataset.id}`)
+                deleteReviewRequest.onload = () => {
+                    deleteReviewCancelBtn.click()
+                    reviewItems[i].style.display = 'none'
+                }
+                deleteReviewRequest.send()
+            }
+        }
+    })
+
+    // Sign Out Btn
+    document.querySelector('#signOutBtn').addEventListener('click', () => {
+        let writeReviewBtn = document.querySelector('#writeReviewBtn')
+        writeReviewBtn.disabled = true
+
     })
 
     function displaySelectedMovie() {
@@ -96,7 +368,7 @@
             }
             if (!(Response in errorCodes)) {
                 const Movie = JSON.parse(Response)
-                console.log(Movie)
+                // console.log(Movie)
 
                 /* GET TEXT DIVS */
                 let titleText = document.querySelector('#Title')
@@ -109,18 +381,14 @@
 
                 /* POPULATE TEXT DIVS */
                 titleText.textContent = Movie.title
-                // releaseDateText.textContent = Movie.release_date
-                releaseDateText.innerHTML = `${Movie.release_date} &#x2022 <span id="genres">${Movie.genres}</span>`
-                // genresText.textContent = 'Jaheim'
+                releaseDateText.textContent = Movie.release_date
+                genresText.textContent = Movie.genres
                 taglineText.textContent = Movie.tagline
                 overviewText.textContent = Movie.overview
 
                 /* POPULATE IMAGES */
                 movieThumbnailIMG.src = Movie.poster_url
                 movieBackgroundIMG.style.backgroundImage = `url(${Movie.backdrop_url})`
-
-
-
 
             }
             else {
@@ -129,6 +397,109 @@
 
         }
         request.send()
+    }
+
+    function addReviewsToPage() {
+        let reviewsContainer = document.querySelector('.reviews-container')
+        reviewsContainer.innerHTML = ''
+
+        const movieID = document.querySelector('.movie-info-text-container').dataset.id
+
+        const reviewsRequest = new XMLHttpRequest()
+        reviewsRequest.open('GET', `/getReviews/${movieID}`)
+        reviewsRequest.onload = () => {
+            const Response = reviewsRequest.responseText
+            const allReviews = JSON.parse(Response)
+
+            const userRequest = new XMLHttpRequest()
+            userRequest.open('GET', '/getUserLoggedIn')
+            userRequest.onload = () => {
+                const Response = userRequest.responseText
+                if (Response === 'User not logged in') {
+                    allReviews.forEach((review) => {
+                        reviewsContainer.innerHTML += `
+                            <div class="review-item" data-id="${review.reviewID}">
+                                <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">
+                                <div class="review-heading">
+                                    <div class="reviewer-name">${review.reviewerName}</div>
+                                    <div class="review-date">Written on ${review.Date}</div>
+                                </div>
+                                <div class="review-body">${review.Content}</div>
+                            </div>
+                        `
+                    })
+                }
+                else {
+                    const userInfo = JSON.parse(userRequest.responseText)
+                    allReviews.forEach((review) => {
+                        if (userInfo['name'] === review.reviewerName) {
+                            reviewsContainer.innerHTML += `
+                                <div class="review-item" data-id="${review.reviewID}" data-user="true">
+                                    <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">
+                                     <a href="#deleteReviewModal" class="edit" data-toggle="modal">
+                                        <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">
+                                    </a>
+                                    <div class="review-heading">
+                                        <div class="reviewer-name">${review.reviewerName}</div>
+                                        <div class="review-date">Written on ${review.Date}</div>
+                                    </div>
+                                    <div class="review-body">${review.Content}</div>
+                                </div>
+                        `
+                        }
+                        else {
+                            reviewsContainer.innerHTML += `
+                                <div class="review-item" data-id="${review.reviewID}" data-user="false">
+                                    <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">
+                                    <div class="review-heading">
+                                        <div class="reviewer-name">${review.reviewerName}</div>
+                                        <div class="review-date">Written on ${review.Date}</div>
+                                    </div>
+                                    <div class="review-body">${review.Content}</div>
+                                </div>
+                            `
+                        }
+                    })
+                }
+
+            }
+            userRequest.send()
+
+
+        }
+        reviewsRequest.send()
+    }
+
+    function checkIfUserIsStillLoggedIn_() {
+        let writeReviewBtn = document.querySelector('#writeReviewBtn')
+        const request = new XMLHttpRequest()
+
+        request.open('GET', `/checkIfUserIsStillLoggedIn`)
+        request.onload = () =>{
+            const Response = JSON.parse(request.responseText)
+            if (Response === true) {
+                UI.userLoggedIn()
+                writeReviewBtn.disabled = false
+            }
+            else {
+                UI.userSignedOut()
+                writeReviewBtn.disabled = true
+            }
+
+        }
+        request.send()
+    }
+
+
+    function getUserReviewIDs() {
+        let reviewsContainer = document.querySelector('.reviews-container')
+        let reviewItems = reviewsContainer.children
+
+        // console.log(reviewItems)
+
+        for (let i = 0; i < reviewItems.length; i++) {
+            console.log(reviewItems[i])
+        }
     }
 </script>
 
