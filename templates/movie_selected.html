@@ -338,7 +338,7 @@
         let reviewsContainer = document.querySelector('.reviews-container')
         let reviewItems = reviewsContainer.children
         for (let i = 0; i < reviewItems.length; i++) {
-            if (reviewItems[i].dataset.user === 'true') {
+            if (reviewItems[i].dataset.user === 'true' && reviewItems[i].dataset.to_delete === 'true') {
                 const deleteReviewRequest = new XMLHttpRequest()
                 deleteReviewRequest.open('POST', `/deleteReview/${reviewItems[i].dataset.id}`)
                 deleteReviewRequest.onload = () => {
@@ -346,6 +346,15 @@
                     reviewItems[i].style.display = 'none'
                 }
                 deleteReviewRequest.send()
+            }
+        }
+    })
+    document.querySelector('#deleteReviewCancelBtn').addEventListener('click', () => {
+        let reviewsContainer = document.querySelector('.reviews-container')
+        let reviewItems = reviewsContainer.children
+        for (let i = 0; i < reviewItems.length; i++) {
+            if (reviewItems[i].dataset.to_delete === 'true') {
+                reviewItems[i].dataset.to_delete = 'false'
             }
         }
     })
@@ -434,7 +443,7 @@
                     allReviews.forEach((review) => {
                         if (userInfo['name'] === review.reviewerName) {
                             reviewsContainer.innerHTML += `
-                                <div class="review-item" data-id="${review.reviewID}" data-user="true">
+                                <div class="review-item" data-id="${review.reviewID}" data-user="true" onclick="prepareReviewForDeletion(this)">
                                     <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">
                                      <a href="#deleteReviewModal" class="edit" data-toggle="modal">
                                         <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">
@@ -461,13 +470,18 @@
                         }
                     })
                 }
-
             }
             userRequest.send()
 
 
         }
         reviewsRequest.send()
+    }
+
+    function prepareReviewForDeletion(reviewClicked) {
+        // console.log(reviewClicked)
+        reviewClicked.dataset.to_delete = 'true'
+        // console.log(reviewClicked)
     }
 
     function checkIfUserIsStillLoggedIn_() {
