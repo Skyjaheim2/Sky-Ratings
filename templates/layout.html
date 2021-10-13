@@ -262,7 +262,12 @@
             let cancelBtn = document.querySelector('#loginModalCancelBtn')
 
 
+            console.log(user_password)
             const request = new XMLHttpRequest()
+            if (user_password === '') {
+                // console.log('Blank')
+                user_password = 'fskfskjfk'
+            }
             request.open('POST', `/loginUser/${username}/${user_password}`)
             request.onload = () => {
                 const Response = request.responseText
@@ -330,10 +335,13 @@
             let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
             let loginBtn = document.querySelector('#loginModalBtn')
 
+            console.log('keyup')
             if (userNameInput.value !== '' && userPasswordInput.value !== '') {
+                console.log('Enabled')
                 loginBtn.disabled = false
             }
             else {
+                console.log('Disabled')
                 loginBtn.disabled = true
             }
         })
