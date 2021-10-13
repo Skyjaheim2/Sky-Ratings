@@ -121,7 +121,7 @@
                     <!-- LOGIN AND CANCEL BUTTON -->
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" id="loginModalCancelBtn" data-dismiss="modal" value="Cancel">
-                        <button id="loginModalBtn" class="btn btn-primary" type="button" disabled>Login</button>
+                        <button id="loginModalBtn" class="btn btn-primary" type="button">Login</button>
                     </div>
                 </form>
             </div>
@@ -335,15 +335,15 @@
             let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
             let loginBtn = document.querySelector('#loginModalBtn')
 
-            console.log('keyup')
-            if (userNameInput.value !== '' && userPasswordInput.value !== '') {
-                console.log('Enabled')
-                loginBtn.disabled = false
-            }
-            else {
-                console.log('Disabled')
-                loginBtn.disabled = true
-            }
+            // console.log('keyup')
+            // if (userNameInput.value !== '' && userPasswordInput.value !== '') {
+            //     console.log('Enabled')
+            //     loginBtn.disabled = false
+            // }
+            // else {
+            //     console.log('Disabled')
+            //     loginBtn.disabled = true
+            // }
         })
         /* VALIDATE SIGN-UP FORM */
         document.querySelector('#signUpForm').addEventListener('keyup', () => {
