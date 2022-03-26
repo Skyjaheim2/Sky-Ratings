@@ -90,7 +90,9 @@ def signUpUser(userName, userEmail, userPassword):
     if newUser.addUser() == -1:
         return "User Already Signed Up"
     else:
-        return redirect(f"/loginUser/{userName}/{userPassword}")
+        session['user_id'] = User.query.all()[-1].id
+        session['logged_in'] = True
+        return redirect(f"/loginUser/{userEmail}/{userPassword}")
 
 
 @app.route("/movies", methods=['GET'])
