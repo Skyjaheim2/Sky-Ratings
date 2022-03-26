@@ -67,7 +67,7 @@
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a id="skyRatingsHeaderBtn" class="navbar-brand logo" href="#">Sky Ratings</a><button id="navBarBtn" data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a id="skyRatingsHeaderBtn" class="navbar-brand logo" href="{{ url_for('index') }}">Sky Ratings</a><button id="navBarBtn" data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div id="alertDiv">
                 <!--                        <div id="alertMessage" class="alert alert-warning" role="alert">You Are Not Registered</div>-->
             </div>
@@ -77,7 +77,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a id="homeHeaderBtn" class="nav-link active" href="{{ url_for('index') }}">Home</a></li>
                     <li class="nav-item"><a id="moviesHeaderBtn" class="nav-link" href="{{ url_for('movies') }}">Movies</a></li>
-                    <li class="nav-item"><a id="tvShowsHeaderBtn" class="nav-link" href="#">TV Shows</a></li>
+{#                    <li class="nav-item"><a id="tvShowsHeaderBtn" class="nav-link" href="#">TV Shows</a></li>#}
 
                     <li class="nav-item"></li>
                     <li class="nav-item"></li>
@@ -121,7 +121,7 @@
                     <!-- LOGIN AND CANCEL BUTTON -->
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" id="loginModalCancelBtn" data-dismiss="modal" value="Cancel">
-                        <button id="loginModalBtn" class="btn btn-primary" type="button">Login</button>
+                        <button id="loginModalBtn" class="btn btn-primary" type="button" disabled>Login</button>
                     </div>
                 </form>
             </div>
@@ -148,7 +148,7 @@
                         <!-- EMAIL -->
                         <div class="form-group">
                             <label class="inputLabel" for="signUpUserEmailInput">Email</label>
-                            <input id="signUpUserEmailInput" class="form-control" autocomplete="off">
+                            <input id="signUpUserEmailInput" class="form-control" autocomplete="off" type="email">
                         </div>
                         <p class="text-warning"><small></small></p>
                         <!-- USER PASSWORD -->
@@ -181,8 +181,8 @@
                 <div class="col-sm-3">
                     <h5>Get started</h5>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="#signUpModal" data-toggle="modal">Sign up</a></li>
                         <li><a href="#">Downloads</a></li>
                     </ul>
                 </div>
@@ -261,13 +261,7 @@
             let loginModalErrorMessage = document.querySelector('#loginModalErrorMessage')
             let cancelBtn = document.querySelector('#loginModalCancelBtn')
 
-
-            console.log(user_password)
             const request = new XMLHttpRequest()
-            if (user_password === '') {
-                // console.log('Blank')
-                user_password = 'fskfskjfk'
-            }
             request.open('POST', `/loginUser/${username}/${user_password}`)
             request.onload = () => {
                 const Response = request.responseText
@@ -329,51 +323,41 @@
             request.send()
         })
 
-        /* VALIDATE LOGIN FORM */
+        /* Validate Login Form */
         document.querySelector('#loginForm').addEventListener('keyup', () => {
-            let userNameInput = document.querySelector('#userNameInput')
-            let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
+            let usernameInput = document.querySelector('#userNameInput')
+            let passwordInput = document.querySelector('#userPasswordInput')
             let loginBtn = document.querySelector('#loginModalBtn')
 
-            // console.log('keyup')
-            // if (userNameInput.value !== '' && userPasswordInput.value !== '') {
-            //     console.log('Enabled')
-            //     loginBtn.disabled = false
-            // }
-            // else {
-            //     console.log('Disabled')
-            //     loginBtn.disabled = true
-            // }
+            if (usernameInput.value === '' || passwordInput.value === '') {
+                loginBtn.disabled = true
+            } else {
+                loginBtn.disabled = false
+            }
         })
-        /* VALIDATE SIGN-UP FORM */
+        /* Validate Sign Up Form */
         document.querySelector('#signUpForm').addEventListener('keyup', () => {
-            let userNameInput = document.querySelector('#signUpUserNameInput')
-            let userEmailInput = document.querySelector('#signUpUserEmailInput')
-            let userPasswordInput = document.querySelector('#signUpUserPasswordInput')
-            let confirmUserPasswordInput = document.querySelector('#signUpConfirmPasswordInput')
+            let usernameInput = document.querySelector('#signUpUserNameInput')
+            let emailInput = document.querySelector('#signUpUserEmailInput')
+            let passwordInput = document.querySelector('#signUpUserPasswordInput')
+            let confirmPasswordInput = document.querySelector('#signUpConfirmPasswordInput')
             let signUpBtn = document.querySelector('#signUpModalBtn')
 
-            passwordsMatch = true
-            if (userPasswordInput.value !== confirmUserPasswordInput.value) {
-                passwordsMatch = false
-            }
-            else {
-                passwordsMatch = true
-            }
-
-            if (!(passwordsMatch) && confirmUserPasswordInput.value !== '') {
-                confirmUserPasswordInput.style.borderColor = 'red'
-            }
-            else {
-                confirmUserPasswordInput.style.borderColor = ''
-            }
-
-            if (userNameInput.value !== '' && userEmailInput.value !== '' && passwordsMatch) {
+            if (usernameInput.value === '' || emailInput.value === '' || (passwordInput.value !== confirmPasswordInput.value)) {
+                signUpBtn.disabled = true
+            } else {
                 signUpBtn.disabled = false
             }
-            else {
-                signUpBtn.disabled = true
+
+            if (confirmPasswordInput.value !== '') {
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordInput.style.borderColor = 'red'
+                } else {
+                    confirmPasswordInput.style.borderColor = ''
+                }
+
             }
+
 
         })
 

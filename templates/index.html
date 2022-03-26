@@ -51,7 +51,8 @@
         <section id="frontPageMovieIMG" class="clean-block clean-hero" style="background-image:url(&quot;static/img/movies/mortal-kombat-2021.jpg&quot);color:rgba(7,7,7,0.85);">
             <div class="text">
                 <h2 id="mainHeadingText">Read and write reviews for trending movies</h2>
-                <p>Sky Ratings is an online moving rating website that allows users review movies worldwide.</p><button class="btn btn-outline-light btn-lg" type="button">Learn More</button>
+                <p>Sky Ratings is an online moving rating website that allows users review movies worldwide.</p>
+                <button id="learnMoreBtn" class="btn btn-outline-light btn-lg" type="button">Learn More</button>
             </div>
         </section>
 
@@ -66,18 +67,18 @@
                         <h4>Latest</h4>
                         <p>Sky ratings always has the latest info and reviews on upcoming movies.</p>
                     </div>
-                    <div class="col-md-5 feature-box"><i class="icon-pencil icon"></i>
-                        <h4>Customizable</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
+{#                    <div class="col-md-5 feature-box"><i class="icon-pencil icon"></i>#}
+{#                        <h4>Customizable</h4>#}
+{#                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>#}
+{#                    </div>#}
                     <div class="col-md-5 feature-box"><i class="icon-screen-smartphone icon"></i>
                         <h4>Responsive</h4>
                         <p>The UI on Sky Ratings has been designed to be responsive and user friendly.</p>
                     </div>
-                    <div class="col-md-5 feature-box"><i class="icon-refresh icon"></i>
-                        <h4>All Browser Compatibility</h4>
-                        <p>Sky Ratings is compatible on all major browsers.</p>
-                    </div>
+{#                    <div class="col-md-5 feature-box"><i class="icon-refresh icon"></i>#}
+{#                        <h4>All Browser Compatibility</h4>#}
+{#                        <p>Sky Ratings is compatible on all major browsers.</p>#}
+{#                    </div>#}
                 </div>
             </div>
         </section>
@@ -163,10 +164,6 @@
     </main>
 
 
-
-
-
-
 {% endblock %}
 
 {% block script %}
@@ -185,8 +182,11 @@
                         const numTrendingMoviesToDisplay = 3
 
                         for (let i = 0; i < numTrendingMoviesToDisplay; i++) {
+                            const movieID = data['results'][i]['id']
                             const imgPath = data['results'][i]['backdrop_path']
                             const imgSRC = `https://image.tmdb.org/t/p/original/${imgPath}`
+                            const imgHref = `/displaySelectedMovie/${movieID}`
+
                             let className
                             if (i === 0)
                                 className = 'carousel-item active'
@@ -194,7 +194,11 @@
                                 className = 'carousel-item'
 
                             trendingMoviesContainer.innerHTML += `
-                                    <div class="${className}"><img class="w-100 d-block" src=${imgSRC} alt="Slide Image"></div>
+                                    <div class="${className}">
+                                        <a href="${imgHref}">
+                                            <img class="w-100 d-block" src=${imgSRC} alt="Slide Image">
+                                        </a>
+                                    </div>
                                 `
                         }
                     }
@@ -214,10 +218,13 @@
                     const Response = request.responseText
                     if (Response !== 'Something went wrong with the url') {
                         const data = JSON.parse(Response)
+                        const movieID = data['results'][0]['id']
+
                         // Display The First Trending Movie
                         const imgPath = data['results'][0]['backdrop_path']
                         const imgSRC = `https://image.tmdb.org/t/p/original/${imgPath}`
                         frontPageMovieDiv.style.backgroundImage = `url(${imgSRC})`
+                        frontPageMovieDiv.dataset.movie_id = movieID
                     }
                     else {
                         console.log(Response)
