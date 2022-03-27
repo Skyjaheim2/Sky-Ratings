@@ -3,6 +3,7 @@
 Sky-Reviews is a flask application inspired by https://www.themoviedb.org/?language=en-US that allows users to view and leave reviews on movies using the TMBD API.
 
 ![image](https://user-images.githubusercontent.com/64718777/160221263-d1a9ae6b-a62e-4a69-b5ba-9e2e8d31b5f7.png)
+![image](https://user-images.githubusercontent.com/64718777/160304836-6e9214cb-0a46-4f78-990d-ccdab2b5f108.png)
 
 ## Requirements
 
@@ -33,4 +34,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Licensed under the [MIT License](LICENSE).

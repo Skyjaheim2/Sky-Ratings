@@ -179,43 +179,7 @@
             <button id="writeReviewBtn" class="btn btn-primary">Write a review</button>
         </a>
 
-
-
-
-        <div class="reviews-container">
-
-<!--            <div class="review-item">-->
-<!--                <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">-->
-
-<!--                <a href="#deleteReviewModal" class="edit" data-toggle="modal">-->
-<!--                    <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">-->
-<!--                </a>-->
-
-
-<!--                <div class="review-heading">-->
-<!--                    <div class="reviewer-name">John Brown</div>-->
-<!--                    <div class="review-date">Written on August 24, 2021</div>-->
-<!--                </div>-->
-<!--                <div class="review-body">-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nisi nostrum ut. Assumenda consectetur mollitia nisi nulla voluptate! Alias at deserunt fugit maiores mollitia pariatur ratione sint veritatis voluptas voluptatem.-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consectetur, consequuntur cupiditate debitis id ipsam laborum magnam minima minus porro saepe soluta ullam voluptatibus. Consequuntur eaque quos rerum sapiente voluptates.-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--            <div class="review-item">-->
-<!--                <img class="profile-pic-avatar" src="{{ url_for('static', filename='img/avatars/office.svg') }}">-->
-<!--                <img class="delete-review-btn" src="{{ url_for('static', filename='img/icons/delete_review.svg') }}">-->
-<!--                <div class="review-heading">-->
-<!--                    <div class="reviewer-name">Sam Lenny</div>-->
-<!--                    <div class="review-date">Written on August 21, 2021</div>-->
-<!--                </div>-->
-<!--                <div class="review-body">-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nisi nostrum ut. Assumenda consectetur mollitia nisi nulla voluptate! Alias at deserunt fugit maiores mollitia pariatur ratione sint veritatis voluptas voluptatem.-->
-<!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque consectetur, consequuntur cupiditate debitis id ipsam laborum magnam minima minus porro saepe soluta ullam voluptatibus. Consequuntur eaque quos rerum sapiente voluptates.-->
-<!--                </div>-->
-<!--            </div>-->
-
-        </div>
+        <div class="reviews-container"></div>
     </section>
 
     <!-- Write a review modal -->
@@ -372,6 +336,7 @@
     })
 
     function displaySelectedMovie() {
+        updateHeaderBtn()
         const movieID = document.querySelector('.movie-info-text-container').dataset.id
         const request = new XMLHttpRequest()
         request.open('GET', `/getSelectedMovie/${movieID}`)
@@ -509,7 +474,6 @@
         request.send()
     }
 
-
     function getUserReviewIDs() {
         let reviewsContainer = document.querySelector('.reviews-container')
         let reviewItems = reviewsContainer.children
@@ -519,6 +483,17 @@
         for (let i = 0; i < reviewItems.length; i++) {
             console.log(reviewItems[i])
         }
+    }
+
+    function updateHeaderBtn() {
+        let moviesHeaderBtn = document.querySelector('#moviesHeaderBtn')
+        let allHeaderBtn = document.querySelectorAll('.nav-link')
+        allHeaderBtn.forEach((btn) => {
+            if (btn.className === 'nav-link active') {
+                btn.className = 'nav-link'
+            }
+        })
+        moviesHeaderBtn.classList.add('active')
     }
 </script>
 
