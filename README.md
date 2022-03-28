@@ -20,7 +20,13 @@ All requirements are listed in requirements.txt.
 * Vanilla JavaScript
 
 ## Usage
-Visit http://sky-ratings.herokuapp.com/ or use flask run application.py.
+Visit http://sky-ratings.herokuapp.com/ or execute
+
+````
+set FLASK_APP=application.py 
+flask run
+````
+in the terminal.
 
 ## Contributors
 
